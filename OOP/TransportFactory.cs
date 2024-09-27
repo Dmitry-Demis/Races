@@ -8,7 +8,7 @@ namespace Race
 {
     public static class TransportFactory
     {
-        private static readonly Dictionary<TransportType, ITransport> _factories = new()
+        private static readonly Dictionary<TransportType, ITransport> _factories = new() 
         {
             {
                 TransportType.Centaur,
