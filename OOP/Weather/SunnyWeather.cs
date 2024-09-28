@@ -2,7 +2,7 @@
 
 namespace Race.Weather;
 
-public class SunnyWeather : IWeather
+public sealed class SunnyWeather : IWeather
 {
     public string Description => "Солнечная погода";
 

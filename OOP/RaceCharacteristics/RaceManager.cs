@@ -2,7 +2,7 @@
 
 namespace Race.RaceCharacteristics;
 
-public class RaceManager
+public sealed class RaceManager
 {
     private static readonly Lazy<RaceManager> _instance = new(() => new RaceManager());
     public static RaceManager Instance => _instance.Value;
