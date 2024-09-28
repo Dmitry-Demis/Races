@@ -1,10 +1,11 @@
 ﻿using Race.Utility;
 using Race.Interfaces;
 using Race.Speed;
+using Race.Weather;
 
 namespace Race.Transport.Air
 {
-    public class AirTransport(string name, ISpeed speed) : Transport(name, speed), IAirTransport
+    public class AirTransport(string name, ISpeed speed, IWeather weather) : Transport(name, speed, weather), IAirTransport
     {
         // Поле для хранения коэффициента ускорения
         public double AccelerationCoefficient => GetAcceleration();
@@ -23,7 +24,7 @@ namespace Race.Transport.Air
         {
             double time = 0;
             double accumulatedDistance = 0;
-            var currentSpeed = Speed.GetSpeed(time); // Начальная скорость
+            var currentSpeed = Speed.GetSpeed(time) * ApplyWeatherModifier(); // Начальная скорость
 
             // Цикл продолжается, пока пройденное расстояние меньше общего расстояния
             while (accumulatedDistance < distance)
@@ -52,5 +53,7 @@ namespace Race.Transport.Air
 
             return time;
         }
+
+        public override double ApplyWeatherModifier() => Weather.SpeedModifier(this);
     }
 }

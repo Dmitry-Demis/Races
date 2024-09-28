@@ -2,7 +2,7 @@
 {
     public class HutOnChickenLegs(GroundTransport transport)
         : GroundTransport(transport.Name, transport.Speed,
-            transport.TimeBeforeRest, transport.RestDurationFunction)
+            transport.TimeBeforeRest, transport.RestDurationFunction, transport.Weather)
     {
     }
 }

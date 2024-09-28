@@ -1,4 +1,5 @@
 ﻿using Race.Speed;
+using Race.Weather;
 
 namespace Race.Interfaces
 {
@@ -7,5 +8,7 @@ namespace Race.Interfaces
         string Name { get; }
         ISpeed Speed { get; }
         double CalculateTime(double distance);
+        IWeather Weather { get; }
+        double ApplyWeatherModifier();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Race.Interfaces;
+using Race.Weather;
 
 namespace Race.RaceCharacteristics;
 
@@ -22,7 +23,7 @@ public class RaceSimulator
 
 
         RaceManager.Instance.CreateRace(raceType, distance);
-
+        var raceWeather = WeatherManager.GetRandomWeather();
         while (true)
         {
             Console.WriteLine(new string('=', 15));
@@ -44,10 +45,11 @@ public class RaceSimulator
                 Console.WriteLine("Регистрация завершена.");
                 break;
             }
-
+            
+            Console.WriteLine($"Погода для гонки: {raceWeather.Description}");
             try
             {
-                var transport = TransportFactory.CreateTransport((TransportType)transportChoice);
+                var transport = TransportFactory.CreateTransport((TransportType)transportChoice, raceWeather);
                 RaceManager.Instance.RegisterTransport(transport);
             }
             catch (ArgumentException ex)
@@ -58,7 +60,7 @@ public class RaceSimulator
         try
         {
             RaceManager.Instance.StartCurrentRace();
-            Console.WriteLine($"→ Победителем является: {RaceManager.Instance.Winner()}");
+            Console.WriteLine($"Победителем является: {RaceManager.Instance.Winner()}");
         }
         catch (InvalidOperationException ex)
         {
