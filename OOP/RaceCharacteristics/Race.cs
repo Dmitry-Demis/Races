@@ -2,12 +2,31 @@
 
 namespace Race.RaceCharacteristics;
 
+/// <summary>
+/// Класс, представляющий гонку
+/// </summary>
+/// <param name="distance">Дистанция гонки</param>
 public abstract class Race(double distance) : IRace
 {
+    /// <summary>
+    /// Список зарегистрированных транспортных средств
+    /// </summary>
     protected readonly List<ITransport> Transports = [];
-    public double Distance { get; } = distance;
-    private string? winner_ { get; set; }
 
+    /// <summary>
+    /// Дистанция гонки
+    /// </summary>
+    public double Distance { get; } = distance;
+
+    /// <summary>
+    /// Имя победителя гонки
+    /// </summary>
+    private string? winner_;
+
+    /// <summary>
+    /// Регистрирует транспортное средство для участия в гонке
+    /// </summary>
+    /// <param name="transport">Транспортное средство для регистрации</param>
     public void RegisterTransport(ITransport transport)
     {
         if (!IsTransportValid(transport))
@@ -21,6 +40,9 @@ public abstract class Race(double distance) : IRace
         Transports.Add(transport);
     }
 
+    /// <summary>
+    /// Запускает гонку, вычисляя время для каждого транспортного средства и определяя победителя
+    /// </summary>
     public void StartRace()
     {
         if (Transports.Count == 0)
@@ -31,25 +53,35 @@ public abstract class Race(double distance) : IRace
             .OrderBy(x => x.Time)
             .ToList();
 
-        winner_ = results.First().Transport; // Возвращаем имя победителя
+        winner_ = results.First().Transport; // Устанавливаем имя победителя
     }
 
+    /// <summary>
+    /// Возвращает имя победителя гонки
+    /// </summary>
+    /// <returns>Имя победителя или null, если гонка еще не завершена</returns>
     public string? Winner() => winner_;
 
+    /// <summary>
+    /// Абстрактный метод для проверки, является ли транспорт допустимым для данной гонки
+    /// </summary>
+    /// <param name="transport">Транспортное средство</param>
+    /// <returns>true, если транспорт допустим, иначе false</returns>
     protected abstract bool IsTransportValid(ITransport transport);
 }
 
-public class GroundRace(double distance) : Race(distance)
+
+public sealed class GroundRace(double distance) : Race(distance)
 {
     protected override bool IsTransportValid(ITransport transport) => transport is IGroundTransport;
 }
 
-public class AirRace(double distance) : Race(distance)
+public sealed class AirRace(double distance) : Race(distance)
 {
     protected override bool IsTransportValid(ITransport transport) => transport is IAirTransport;
 }
 
-public class MixedRace(double distance) : Race(distance)
+public sealed class MixedRace(double distance) : Race(distance)
 {
     protected override bool IsTransportValid(ITransport transport) => true; // Все типы транспорта допустимы
 }
@@ -59,7 +91,7 @@ public interface IRaceFactory
     IRace CreateRace(double distance);
 }
 
-public class GroundRaceFactory : IRaceFactory
+public sealed class GroundRaceFactory : IRaceFactory
 {
     public IRace CreateRace(double distance)
     {
@@ -67,7 +99,7 @@ public class GroundRaceFactory : IRaceFactory
     }
 }
 
-public class AirRaceFactory : IRaceFactory
+public sealed class AirRaceFactory : IRaceFactory
 {
     public IRace CreateRace(double distance)
     {
@@ -75,7 +107,7 @@ public class AirRaceFactory : IRaceFactory
     }
 }
 
-public class MixedRaceFactory : IRaceFactory
+public sealed class MixedRaceFactory : IRaceFactory
 {
     public IRace CreateRace(double distance)
     {

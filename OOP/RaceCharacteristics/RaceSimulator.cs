@@ -3,7 +3,7 @@ using Race.Weather;
 
 namespace Race.RaceCharacteristics;
 
-public class RaceSimulator
+public sealed class RaceSimulator
 {
     public void Start()
     {

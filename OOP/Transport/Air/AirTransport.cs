@@ -7,11 +7,16 @@ namespace Race.Transport.Air
 {
     public class AirTransport(string name, ISpeed speed, IWeather weather) : Transport(name, speed, weather), IAirTransport
     {
-        // Поле для хранения коэффициента ускорения
+        /// <summary>
+        /// Поле для хранения коэффициента ускорения
+        /// </summary>
         public double AccelerationCoefficient => GetAcceleration();
 
 
-        // Метод для получения коэффициента ускорения из скорости
+        /// <summary>
+        /// Метод для получения коэффициента ускорения из скорости
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
         private double GetAcceleration()
         {
             if (Speed is LinearSpeed linearSpeed)
@@ -19,7 +24,11 @@ namespace Race.Transport.Air
             throw new InvalidOperationException("Speed must be of type LinearSpeed to get acceleration.");
         }
 
-        // Метод для вычисления времени полета
+        /// <summary>
+        /// Метод для вычисления времени полета
+        /// </summary>
+        /// <param name="distance">Расстояние</param>
+        /// <returns></returns>
         public override double CalculateTime(double distance)
         {
             double time = 0;
@@ -53,7 +62,10 @@ namespace Race.Transport.Air
 
             return time;
         }
-
+        /// <summary>
+        /// Применить погоду
+        /// </summary>
+        /// <returns>Коэффицент ускорения или замедления</returns>
         public override double ApplyWeatherModifier() => Weather.SpeedModifier(this);
     }
 }
